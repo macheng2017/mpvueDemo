@@ -13,3 +13,6 @@ yarn-error.log*
 *.sln
 
 .vscode
+
+server/config.js
+server/node_modules/
