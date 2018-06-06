@@ -233,3 +233,12 @@ app.json 是在mpvue中 main.js 中定义的
 新建pages文件夹
 
  main.js
+
+## 自动修复eslint报错文件
+
+ "lint": "eslint --fix --ext .js,.vue src"
+ npm run lint
+
+ /* eslint disable */ 关闭eslint检查文件
+
+ 
