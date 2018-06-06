@@ -241,4 +241,16 @@ app.json 是在mpvue中 main.js 中定义的
 
  /* eslint disable */ 关闭eslint检查文件
 
- 
+
+## 初始化数据库
+
+node tools/initdb.js
+
+在前端中 添加
+npm install wafer2-client-sdk --save
+
+## sdk登录功能实现
+
+https://github.com/tencentyun/wafer2-client-sdk
+
+与后端server 微信给的demo是配套的
