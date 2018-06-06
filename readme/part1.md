@@ -221,4 +221,15 @@ npm i nodemon -g
 
 操作mysql 数据库的库knex
 
-使用mpvue框架删除src目录
+## 使用mpvue框架删除src目录
+
+注意: 入口App.vue 中template不写东西报错, con n't find for 加入一层 div即可
+
+或者不写template即可
+
+app.json 是在mpvue中 main.js 中定义的
+
+
+新建pages文件夹
+
+ main.js
