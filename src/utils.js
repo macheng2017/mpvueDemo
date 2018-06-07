@@ -1,7 +1,7 @@
 //  工具函数
 import config from './config'
 // 为了能使用 async await 把wx.request 封装下
-export function get (url) {
+export function get(url) {
   return new Promise((resolve, reject) => {
     wx.request({
       url: config.host + url,
@@ -13,5 +13,12 @@ export function get (url) {
         }
       }
     })
+  })
+}
+
+export function showSuccess(text) {
+  wx.showToast({
+    title: text,
+    icon: 'success'
   })
 }
