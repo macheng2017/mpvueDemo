@@ -1,10 +1,10 @@
 
 <script>
-import { get } from './utils'
+import { get, showSuccess } from './utils'
 import qcloud from 'wafer2-client-sdk'
 import config from './config'
 export default {
-  async created () {
+  async created() {
     const res = await get('/weapp/test')
     // wx.request({
     //   url: config.host + '/weapp/test', // 仅为示例，并非真实的接口地址
@@ -19,19 +19,39 @@ export default {
     // https://github.com/tencentyun/wafer2-client-sdk
 
     // 设置登录地址
-    qcloud.setLoginUrl(config.loginUrl)
-    qcloud.login({
-      success: function (userInfo) {
-        console.log('登录成功', userInfo)
-      },
-      fail: function (err) {
-        console.log('登录失败11', err)
-      }
-    })
-    console.log(res)
+    let user = wx.getStorageSync('userInfo')
+    if (!user) {
+      qcloud.setLoginUrl(config.loginUrl)
+      qcloud.login({
+        success: function(userInfo) {
+          console.log('登录成功', userInfo)
+          showSuccess('登录成功')
+          // 存在浏览器中
+          wx.setStorageSync('userInfo', userInfo)
+        },
+        fail: function(err) {
+          console.log('登录失败11', err)
+        }
+      })
+      console.log(res)
+    }
   }
 }
 </script>
+<style lang="sass">
+.btn
+  color: white
+  background: #EA5149
+  margin-bottom: 10px
+  padding-left: 15px
+  padding-left: 15px
+  border-radius: 2px
+  font-size: 16px
+  line-height: 40px
+  height: 40px
+  width: 100%
+.btn:active
+  background: #FA5A49
 
-<style>
 </style>
+
