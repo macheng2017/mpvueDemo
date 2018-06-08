@@ -237,3 +237,16 @@ https://github.com/tencentyun/wafer2-client-sdk
 ## 使用 pug 和 sass
 
 npm i pug sass-loader node-sass -save-dev
+
+## 初始化数据库
+
+node tools/initdb.js
+
+在前端中 添加
+npm install wafer2-client-sdk --save
+
+## sdk登录功能实现
+
+https://github.com/tencentyun/wafer2-client-sdk
+
+与后端server 微信给的demo是配套的
