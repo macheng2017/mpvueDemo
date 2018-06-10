@@ -1,11 +1,12 @@
 <template lang="pug">
   .container 个人中心
-    button( v-if="!userInfo" open-type="getUserInfo" lang="zh_CN" @getuserinfo="doLogin") 获取用户信息
-    .userInfo
-      img(:src="userInfo.avatarUrl")
-      p {{userInfo.nickName}}
-    YearProgress
-    button(class="btn" @click="scanBook") 添加图书
+    button(v-if="!userInfo" open-type="getUserInfo" lang="zh_CN" @getuserinfo="doLogin") 点击登录
+    div(v-if="userInfo.openId")
+      .userInfo
+        img(:src="userInfo.avatarUrl")
+        p {{userInfo.nickName}}
+      YearProgress
+      button(class="btn" @click="scanBook") 添加图书
 </template>
 
 <script>
@@ -17,10 +18,13 @@ import YearProgress from '@/components/YearProgress'
 export default {
   data() {
     return {
-      userInfo: {}
+      userInfo: {
+        avatarUrl: '../../../static/img/unlogin.png',
+        nickName: '点击登录'
+      }
     }
   },
-  created() {
+  onShow() {
     this.userInfo = wx.getStorageSync('userInfo')
   },
   methods: {
@@ -28,12 +32,16 @@ export default {
       if (!this.userInfo) {
         qcloud.setLoginUrl(config.loginUrl)
         qcloud.login({
-          success(userInfo) {
+          // 解决不能成功刷新登录后的信息问题:
+          // 1. 使用=>函数
+          // 2. 使用 const self = this  this.userInfo = userInfo
+          success: userInfo => {
             console.log('登录成功', userInfo)
             showSuccess('登录成功')
             // 存在浏览器中
             wx.setStorageSync('userInfo', userInfo)
             this.userInfo = userInfo
+            // 为了解决上个
           },
           fail: function(err) {
             console.log('登录失败', err)

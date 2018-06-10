@@ -245,8 +245,10 @@ node tools/initdb.js
 在前端中 添加
 npm install wafer2-client-sdk --save
 
-## sdk登录功能实现
+## sdk 登录功能实现
 
 https://github.com/tencentyun/wafer2-client-sdk
 
-与后端server 微信给的demo是配套的
+与后端 server 微信给的 demo 是配套的
+
+https://developers.weixin.qq.com/blogdetail?action=get_post_info&lang=zh_CN&token=1121323017&docid=0000a26e1aca6012e896a517556c01&devtools=1
