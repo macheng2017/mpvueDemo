@@ -1,6 +1,6 @@
 <template lang="pug">
   .container 个人中心
-    button(v-if="!userInfo" open-type="getUserInfo" lang="zh_CN" @getuserinfo="doLogin") 点击登录
+    button(v-if="!userInfo.openId" open-type="getUserInfo" lang="zh_CN" @getuserinfo="doLogin") 点击登录
     div(v-if="userInfo.openId")
       .userInfo
         img(:src="userInfo.avatarUrl")
@@ -12,7 +12,7 @@
 <script>
 import qcloud from 'wafer2-client-sdk'
 import config from '@/config.js'
-import { showSuccess } from '@/utils.js'
+import { showSuccess, post } from '@/utils.js'
 import YearProgress from '@/components/YearProgress'
 
 export default {
@@ -25,11 +25,14 @@ export default {
     }
   },
   onShow() {
-    this.userInfo = wx.getStorageSync('userInfo')
+    const userInfo = wx.getStorageSync('userInfo')
+    if (userInfo.openId) {
+      this.userInfo = userInfo
+    }
   },
   methods: {
     doLogin: function(e) {
-      if (!this.userInfo) {
+      if (!this.userInfo.openId) {
         qcloud.setLoginUrl(config.loginUrl)
         qcloud.login({
           // 解决不能成功刷新登录后的信息问题:
@@ -59,11 +62,24 @@ export default {
         })
       }
     },
+    async addBook(isbn) {
+      // 把发起请求的方法放到utils中, 项目中应该放入到controler层当中,或者放入到vuex的action中
+      const res = await post('/weapp/addbook', {
+        isbn,
+        openid: this.userInfo.openId
+      })
+      if (res.code === 0 && res.data.title) {
+        showSuccess('添加成功', `${res.data.title} 添加成功`)
+      }
+    },
     scanBook() {
       // 允许从相机和相册扫码
       wx.scanCode({
         success: res => {
-          console.log(res)
+          if (res.result) {
+            this.addBook(res.result)
+            console.log(res)
+          }
         }
       })
     }
