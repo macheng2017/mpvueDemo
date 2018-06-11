@@ -1,11 +1,11 @@
 <template lang="pug">
 .container
-  div(v-for="item in books" :key="item.id")
-    div {{item.title}}
+  Card(v-for="book in books" :key="book.id" :book="book")
 
 </template>
 <script>
 import { get } from '@/utils'
+import Card from '@/components/card'
 export default {
   data() {
     return {
@@ -20,6 +20,9 @@ export default {
   },
   mounted() {
     this.getList()
+  },
+  components: {
+    Card
   }
 }
 </script>
