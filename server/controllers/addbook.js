@@ -1,5 +1,6 @@
-const R = require('ramda')
+// const R = require('ramda')
 const https = require('https')
+const { mysql } = require('../qcloud')
 
 // add books info
 // step:
@@ -11,9 +12,23 @@ const https = require('https')
 // GET  https://api.douban.com/v2/book/isbn/:name
 module.exports = async ctx => {
     const { isbn, openid } = ctx.request.body
-    console.log(isbn)
-    console.log(openid)
+    // console.log(isbn)
+    // console.log(openid)
     if (isbn && openid) {
+        // 验证图书是否存在功能
+        const findRes = await mysql('books')
+            .select()
+            .where('isbn', isbn)
+        if (findRes.length) {
+            ctx.state = {
+                code: -1,
+                data: {
+                    msg: '图书已经存在!'
+                }
+            }
+            return
+        }
+
         let url = `https://api.douban.com/v2/book/isbn/${isbn}`
         const bookInfo = await getJson(url)
         // 转换json: 将豆瓣获取的信息,转换为自己需要的信息
@@ -26,6 +41,8 @@ module.exports = async ctx => {
             .join(',')
         const author = bookInfo.author.join(',')
         console.log({
+            isbn,
+            openid,
             rate,
             title,
             image,
@@ -36,6 +53,32 @@ module.exports = async ctx => {
             tags,
             author
         })
+        try {
+            await mysql('books').insert({
+                isbn,
+                openid,
+                rate,
+                title,
+                image,
+                alt,
+                publisher,
+                summary,
+                price,
+                tags,
+                author
+            })
+            ctx.state.data = {
+                title,
+                msg: 'success'
+            }
+        } catch (e) {
+            ctx.state = {
+                code: -1,
+                data: {
+                    msg: '新增失败' + e.sqlMessage
+                }
+            }
+        }
         // let result = R.pick([
         //   'rating',
         //   'title',

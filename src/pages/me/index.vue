@@ -12,7 +12,7 @@
 <script>
 import qcloud from 'wafer2-client-sdk'
 import config from '@/config.js'
-import { showSuccess, post } from '@/utils.js'
+import { showSuccess, post, showModal } from '@/utils.js'
 import YearProgress from '@/components/YearProgress'
 
 export default {
@@ -68,9 +68,11 @@ export default {
         isbn,
         openid: this.userInfo.openId
       })
-      if (res.code === 0 && res.data.title) {
-        showSuccess('添加成功', `${res.data.title} 添加成功`)
-      }
+      console.log(res)
+      showModal('添加成功', `${res.title} 添加成功`)
+      // if (res.code === 0 && res.data.title) {
+      //   showSuccess('添加成功', `${res.data.title} 添加成功`)
+      // }
     },
     scanBook() {
       // 允许从相机和相册扫码
@@ -80,6 +82,10 @@ export default {
             this.addBook(res.result)
             console.log(res)
           }
+        },
+        fail: res => {
+          // console.log(res)
+          showModal('添加失败', `扫码失败,请重试`)
         }
       })
     }
