@@ -9,7 +9,9 @@ const mapDir = d => {
     const tree = {}
 
     // 获得当前文件夹下的所有的文件夹和文件
-    const [dirs, files] = _(fs.readdirSync(d)).partition(p => fs.statSync(path.join(d, p)).isDirectory())
+    const [dirs, files] = _(fs.readdirSync(d)).partition(p =>
+        fs.statSync(path.join(d, p)).isDirectory()
+    )
 
     // 映射文件夹
     dirs.forEach(dir => {
