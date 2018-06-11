@@ -18,7 +18,7 @@ function request(url, method, data) {
           // console.log(res.data.data)
           resolve(res.data.data)
         } else {
-          // 这样写道这里肯定不对
+          // 这样写到这里肯定不对,随后在调整
           showModal('添加失败', `${res.data.data.msg}`)
           reject(res.data)
         }

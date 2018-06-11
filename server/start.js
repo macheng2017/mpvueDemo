@@ -16,9 +16,9 @@ require('babel-core/register')({
             'module-alias',
             [
                 {
-                    src: r('./server'),
+                    src: r('./'),
                     expose: '~',
-                    src: r('./server/database'),
+                    src: r('./database'),
                     expose: 'database'
                 }
             ]
@@ -27,7 +27,7 @@ require('babel-core/register')({
 })
 // 通过babel的编译才能放心使用es6 的语法
 require('babel-polyfill')
-require('./server')
+require('./')
 // require('./server/crawler/imdb')
 // require('./server/crawler/api')
 // require('./server/crawler/check')
