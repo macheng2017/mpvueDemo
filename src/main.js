@@ -11,7 +11,7 @@ app.$mount()
 // 配置小程序显示界面
 export default {
   config: {
-    pages: ['pages/books/main', '^pages/me/main', 'pages/comments/main'],
+    pages: ['^pages/books/main', 'pages/me/main', 'pages/comments/main'],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#EA5149',

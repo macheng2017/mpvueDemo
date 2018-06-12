@@ -4,13 +4,24 @@
     img(:src="book.image" class='img' mode="aspectFit")
   .detail
     .row
-      .right {{book.rate}}
       .left {{book.title}}
+      .right {{book.rate}}
+        Rate(:value="book.rate" )
+    .row
+      .left {{book.author}}
+      .right 浏览量: 3434
+    .row
+      .left {{book.publisher}}
+      .right 添加人: xxx
 
 </template>
 <script>
 import { get } from '@/utils'
+import Rate from '@/components/rate'
 export default {
+  components: {
+    Rate
+  },
   props: ['book'],
   methods: {
     async getList() {
@@ -26,6 +37,7 @@ export default {
     overflow: hidden
     margin-top: 5px
     margin-bottom: 5px
+    font-size: 14px
     .thumb
       width: 90px
       height: 90px
@@ -35,6 +47,17 @@ export default {
       .img
         max-width: 100%
         max-height: 100%
+    .detail
+      margin-left: 100px
+      .row
+        line-height: 20px
+        margin-bottom: 3px
+      .right
+        float: right
+      .left
+        float: left
+        margin-right: 90px
+
 
 
 </style>
