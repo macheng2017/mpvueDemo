@@ -18,6 +18,13 @@ export default {
       this.books = book.list
     }
   },
+  onPullDownRefresh() {
+    wx.showNavigationBarLoading()
+    this.getList()
+    wx.stopPullDownRefresh()
+    wx.hideNavigationBarLoading()
+    // console.log('下拉')
+  },
   mounted() {
     this.getList()
   },
