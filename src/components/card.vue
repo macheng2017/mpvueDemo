@@ -10,7 +10,7 @@
           Rate(:value="book.rate" )
       .row
         .left {{book.author}}
-        .right 浏览量: 3434
+        .right 浏览量: {{book.count}}
       .row
         .left {{book.publisher}}
         .right {{book.user_info.nickName}}
@@ -32,7 +32,7 @@ export default {
   methods: {
     async getList() {
       const book = await get('/weapp/bookList')
-      this.books = book.list
+      this.book = book.list
     }
   }
 }

@@ -18,7 +18,8 @@ export default {
     return {
       books: [],
       page: 0,
-      more: true
+      more: true,
+      top: []
     }
   },
   methods: {
@@ -44,11 +45,16 @@ export default {
       }
       // wx.stopPullDownRefresh()
       wx.hideNavigationBarLoading()
+    },
+    async getTop() {
+      const top = await get('/weapp/top')
+      this.tops = top.list
     }
   },
   onPullDownRefresh() {
     this.getList(true)
     // console.log('下拉')
+    this.getTop()
   },
   onReachBottom() {
     if (!this.more) {
@@ -59,6 +65,7 @@ export default {
   },
   mounted() {
     this.getList(true)
+    this.getTop()
   },
   components: {
     Card
