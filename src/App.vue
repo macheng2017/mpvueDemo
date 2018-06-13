@@ -38,9 +38,10 @@ export default {
 }
 </script>
 <style lang="sass">
+@import ../static/sass/color
 .btn
   color: white
-  background: #EA5149
+  background: $red
   margin-bottom: 10px
   padding-left: 15px
   padding-left: 15px
@@ -50,7 +51,7 @@ export default {
   height: 40px
   width: 100%
 .btn:active
-  background: #FA5A49
+  background: $red
 
 </style>
 

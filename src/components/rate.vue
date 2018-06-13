@@ -17,10 +17,11 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
+@import ../../static/sass/color
 .rate
   position: relative
   display: inline-block
-  color: #EA5149
+  color: $red
   .hollow
     position: absolute
     display: inline-block

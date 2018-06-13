@@ -12,7 +12,7 @@
       .right 浏览量: 3434
     .row
       .left {{book.publisher}}
-      .right 添加人: xxx
+      .right {{book.user_info.nickName}}
 
 </template>
 <script>

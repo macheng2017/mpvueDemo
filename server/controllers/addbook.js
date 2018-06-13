@@ -1,4 +1,4 @@
-// const R = require('ramda')
+const R = require('ramda')
 const https = require('https')
 const { mysql } = require('../qcloud')
 
@@ -40,19 +40,53 @@ module.exports = async ctx => {
             })
             .join(',')
         const author = bookInfo.author.join(',')
-        console.log({
-            isbn,
-            openid,
-            rate,
-            title,
-            image,
-            alt,
-            publisher,
-            summary,
-            price,
-            tags,
-            author
-        })
+        // // 重构上面的代码
+        // const stp1 = R.map(v => {
+        //     const info = JSON.parse(v.rating.average)
+        //     return Object.assign({}, v, {
+        //         rate: info,
+        //         tags: `${v.title} ${v.count}`
+        //     })
+        // })
+        // let stp2 = R.pick([
+        //     'tags',
+        //     'rate',
+        //     'title',
+        //     'image',
+        //     'alt',
+        //     'publisher',
+        //     'summary',
+        //     'price',
+        //     'author'
+        // ])
+        // const result = R.compose(
+        //   stp2,
+        //   stp1
+        // )
+        // console.log({
+        //     isbn,
+        //     openid,
+        //     rate,
+        //     title,
+        //     image,
+        //     alt,
+        //     publisher,
+        //     summary,
+        //     price,
+        //     tags,
+        //     author
+        // })
+                // let result = R.pick([
+        //   'rating',
+        //   'title',
+        //   'image',
+        //   'alt',
+        //   'publisher',
+        //   'summary',
+        //   'price',
+        //   'author'
+        // ])
+        // console.log(result(bookInfo))
         try {
             await mysql('books').insert({
                 isbn,
@@ -79,17 +113,6 @@ module.exports = async ctx => {
                 }
             }
         }
-        // let result = R.pick([
-        //   'rating',
-        //   'title',
-        //   'image',
-        //   'alt',
-        //   'publisher',
-        //   'summary',
-        //   'price',
-        //   'author'
-        // ])
-        // console.log(result(bookInfo))
     }
 }
 // 用的功能不多,不需要第三方库,仅用nodejs自带的即可
