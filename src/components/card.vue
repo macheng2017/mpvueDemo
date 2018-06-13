@@ -1,18 +1,19 @@
 <template lang="pug">
 .book-card
-  .thumb
-    img(:src="book.image" class='img' mode="aspectFit")
-  .detail
-    .row
-      .left {{book.title}}
-      .right {{book.rate}}
-        Rate(:value="book.rate" )
-    .row
-      .left {{book.author}}
-      .right 浏览量: 3434
-    .row
-      .left {{book.publisher}}
-      .right {{book.user_info.nickName}}
+  a(:href="detailUrl")
+    .thumb
+      img(:src="book.image" class='img' mode="aspectFit")
+    .detail
+      .row
+        .left {{book.title}}
+        .right {{book.rate}}
+          Rate(:value="book.rate" )
+      .row
+        .left {{book.author}}
+        .right 浏览量: 3434
+      .row
+        .left {{book.publisher}}
+        .right {{book.user_info.nickName}}
 
 </template>
 <script>
@@ -23,6 +24,11 @@ export default {
     Rate
   },
   props: ['book'],
+  computed: {
+    detailUrl() {
+      return `/pages/detail/main?id=${this.book.id}`
+    }
+  },
   methods: {
     async getList() {
       const book = await get('/weapp/bookList')

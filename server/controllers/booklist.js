@@ -12,6 +12,9 @@ module.exports = async ctx => {
         .offset(Number(page) * size)
         .orderBy('books.id', 'desc')
 
+    // select `books`.*, `cSessionInfo`.`user_info` from `books` inner join
+    // `cSessionInfo` on `books`.`openid` = `cSessionInfo`.`open_id` order by
+    // `books`.`id` desc limit ?
     ctx.state.data = {
         // 查询出来cSessionInfo(左联查询) 是一个比较大的对象,需要做下映射
         list: books.map(v => {

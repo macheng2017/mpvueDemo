@@ -252,3 +252,10 @@ https://github.com/tencentyun/wafer2-client-sdk
 与后端 server 微信给的 demo 是配套的
 
 https://developers.weixin.qq.com/blogdetail?action=get_post_info&lang=zh_CN&token=1121323017&docid=0000a26e1aca6012e896a517556c01&devtools=1
+
+select `books`.*, `cSessionInfo`.`user_info` from `books` inner join `cSessionInfo` on `books`.`openid` = `cSessionInfo`.`open_id` order by `books`.`id` desc limit ?
+
+## 修改数据库表增加一个count字段
+
+alter table books add column count int default 0;
+
