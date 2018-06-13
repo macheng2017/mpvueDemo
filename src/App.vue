@@ -52,6 +52,10 @@ export default {
   width: 100%
 .btn:active
   background: $red
+.text-footer
+  text-align: center
+  font-size: 12px
+  margin-bottom: 5px
 
 </style>
 

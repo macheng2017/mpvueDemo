@@ -2,9 +2,14 @@ const { mysql } = require('../qcloud')
 
 module.exports = async ctx => {
     // 使用联表查询,查出nickname
+    // 添加分页(触底刷新)
+    const { page } = ctx.request.query
+    const size = 10
     const books = await mysql('books')
         .select('books.*', 'cSessionInfo.user_info')
         .join('cSessionInfo', 'books.openid', 'cSessionInfo.open_id')
+        .limit(size)
+        .offset(Number(page) * size)
         .orderBy('books.id', 'desc')
 
     ctx.state.data = {
