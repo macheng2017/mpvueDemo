@@ -11,6 +11,7 @@
     "lint": "eslint --fix --ext .js,.vue src"
   },
   "dependencies": {
+    "jsonfile": "^4.0.0",
     "koa": "^2.5.1",
     "koa-router": "^7.4.0",
     "mpvue": "^1.0.11",

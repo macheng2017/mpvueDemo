@@ -1,5 +1,6 @@
 <template lang="pug">
 .container
+  TopSwiper(:tops="tops")
   Card(v-for="book in books" :key="book.id" :book="book")
   .text-footer(v-if="!more") 没有了...
 
@@ -13,13 +14,18 @@
 // 2. page>0 数据长度<10 停止触底加载
 import { get } from '@/utils'
 import Card from '@/components/card'
+import TopSwiper from '@/components/topSwiper'
 export default {
+  components: {
+    Card,
+    TopSwiper
+  },
   data() {
     return {
       books: [],
       page: 0,
       more: true,
-      top: []
+      tops: []
     }
   },
   methods: {
@@ -46,6 +52,7 @@ export default {
       // wx.stopPullDownRefresh()
       wx.hideNavigationBarLoading()
     },
+    // 顶部轮播图接口
     async getTop() {
       const top = await get('/weapp/top')
       this.tops = top.list
@@ -66,9 +73,6 @@ export default {
   mounted() {
     this.getList(true)
     this.getTop()
-  },
-  components: {
-    Card
   }
 }
 </script>

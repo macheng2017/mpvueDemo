@@ -40,6 +40,14 @@ module.exports = async ctx => {
             })
             .join(',')
         const author = bookInfo.author.join(',')
+        // 再次重构上面的代码
+        // bookInfo.map(v => {
+        //     return Object.assign({
+        //         rate: v.rating.average,
+        //         title: v.title
+        //     })
+        // })
+        // 思路错了
         // // 重构上面的代码
         // const stp1 = R.map(v => {
         //     const info = JSON.parse(v.rating.average)
@@ -76,7 +84,7 @@ module.exports = async ctx => {
         //     tags,
         //     author
         // })
-                // let result = R.pick([
+        // let result = R.pick([
         //   'rating',
         //   'title',
         //   'image',

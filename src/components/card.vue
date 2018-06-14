@@ -2,7 +2,8 @@
 .book-card
   a(:href="detailUrl")
     .thumb
-      img(:src="book.image" class='img' mode="aspectFit")
+      // 预览图片,不想上点击事件影响到其他标签添加.stop后缀
+      img(:src="book.image" class='img' mode="aspectFit" @click.stop="preview")
     .detail
       .row
         .left {{book.title}}
@@ -33,6 +34,13 @@ export default {
     async getList() {
       const book = await get('/weapp/bookList')
       this.book = book.list
+    },
+    // 预览大图
+    preview() {
+      wx.previewImage({
+        current: this.book.image,
+        urls: [this.book.image]
+      })
     }
   }
 }
