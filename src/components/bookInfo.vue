@@ -28,7 +28,7 @@ export default {
     .img
       position: absolute
       width: 100%
-      heigth: 300rpx
+      height: 300rpx
       top: 30rpx
       left: 0
   .info
