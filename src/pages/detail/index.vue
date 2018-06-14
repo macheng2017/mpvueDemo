@@ -1,5 +1,5 @@
 <template lang="pug">
-.container {{bookid}}
+.container
   BookInfo(:info="info")
 </template>
 
