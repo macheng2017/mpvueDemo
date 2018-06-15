@@ -12,6 +12,9 @@ module.exports = async ctx => {
     // 而且 里面的数据太多了需要筛选一部分
     const info = JSON.parse(detail.user_info)
     ctx.state.data = Object.assign({}, detail, {
+      // 将标签根据逗号切开,简介根据换行符切开
+        tags: detail.tags.split(','),
+        summary: detail.summary.split('\n'),
         user_info: {
             name: info.nickName,
             image: info.avatarUrl

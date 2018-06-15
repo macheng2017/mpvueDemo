@@ -12,6 +12,10 @@
   .right {{info.rate}} 分
   .detail {{info.publisher}}
   .right {{info.price}}
+  .tags
+    .badge(v-for="tag in info.tags" :key="tag") {{ tag }}
+  .summary
+    p(v-for="(sum,i) in info.summary" :key="i") {{ sum }}
 </template>
 <script>
 import Rate from '@/components/rate'
@@ -30,6 +34,21 @@ export default {
 <style lang="sass" scoped>
 .bookInfo
   font-size: 14px
+  .tags
+    .badge
+      display: inline-block
+      margin: 5px
+      padding: 5px
+      border-radius: 10px
+      border: 1px #EA5A49 solid
+      color: #EA5A49
+  .summary
+    padding: 0 15px
+    margin-top: 10px
+    p
+      text-indent: 2em
+
+
   .right
     float: right
   .detail
