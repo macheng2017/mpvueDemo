@@ -6,17 +6,40 @@
   .info
     .title {{info.title}}
     .author {{info.author}}
+  .detail {{userInfo.name}}
+    img(class='avatar' :src="userInfo.image" mode="aspectFit")
+    Rate(:value="info.rate")
+  .right {{info.rate}} 分
+  .detail {{info.publisher}}
+  .right {{info.price}}
 </template>
 <script>
+import Rate from '@/components/rate'
 export default {
+  components: {
+    Rate
+  },
   props: ['info'],
-  mounted() {
-    console.log(this.info)
+  computed: {
+    userInfo() {
+      return this.info.user_info || {}
+    }
   }
 }
 </script>
 <style lang="sass" scoped>
 .bookInfo
+  font-size: 14px
+  .right
+    float: right
+  .detail
+    padding: 5px 10px
+    .avatar
+      width: 20px
+      height: 20px
+      border-radius: 50%
+      vertical-align: middle
+
   .thumb
     width: 750rpx
     height: 500rpx
@@ -42,8 +65,4 @@ export default {
       font-size: 20px
     .author
       font-size: 14px
-
-
-
-
 </style>

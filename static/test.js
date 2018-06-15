@@ -24,8 +24,9 @@ readFile(readFilePath)
   .then(data => {
     return data.map(v => {
       return Object.assign(
+        {},
         {
-          'src': v
+          src: v
         }
       )
     })
