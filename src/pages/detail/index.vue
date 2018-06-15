@@ -1,6 +1,15 @@
 <template lang="pug">
 .container
   BookInfo(:info="info")
+  .comment
+    textarea(v-model="comment" class="textarea" :maxlength="100" placeholder='请输入内容...')
+    .location 地理位置:
+      switch(color="#EA5A49" @change="getGeo" :checked='location')
+      span {{location}}
+    .phone 手机型号:
+      switch(color="#EA5A49" @change="getPhone" :checked='phone')
+      span {{phone}}
+
 </template>
 
 
@@ -15,7 +24,10 @@ export default {
   data() {
     return {
       bookid: '',
-      info: {}
+      info: {},
+      comments: '',
+      location: '',
+      phone: ''
     }
   },
   methods: {
@@ -26,6 +38,16 @@ export default {
         title: info.title
       })
       this.info = info
+    },
+    getGeo() {},
+    // mpvue 对获取信息的属性有有修改 e.detail.value => e.target.value
+    getPhone(e) {
+      if (e.target.value) {
+        const phoneInfo = wx.getSystemInfoSync()
+        this.phone = phoneInfo.model
+      } else {
+        this.phone = ''
+      }
     }
   },
   mounted() {
@@ -36,5 +58,19 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+.comment
+  margin-top: 10px
+  .textarea
+    width: 730rpx
+    height: 200rpx
+    background: #eee
+    padding: 10rpx
+  .location,.phone
+    margin-top: 10px
+    padding: 5px 10px
+
+
+
+
 
 </style>
