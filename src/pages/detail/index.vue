@@ -1,6 +1,7 @@
 <template lang="pug">
 .container
   BookInfo(:info="info")
+  CommentList(:comments="comments")
   .comment
     textarea(v-model="comment" class="textarea" :maxlength="100" placeholder='请输入内容...')
     .location 地理位置:
@@ -16,9 +17,11 @@
 <script>
 import { get, post, showModal } from '@/utils'
 import BookInfo from '@/components/bookInfo'
+import CommentList from '@/components/commentList'
 export default {
   components: {
-    BookInfo
+    BookInfo,
+    CommentList
   },
   // Q&A - mpvue-docs  http://mpvue.com/qa/
   data() {
@@ -106,7 +109,7 @@ export default {
     // 获取评论列表
     async getComments() {
       const comments = await post('/weapp/commentList', { bookid: this.bookid })
-      this.comments = comments
+      this.comments = comments.list
     }
   },
   mounted() {
