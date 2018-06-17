@@ -2,8 +2,8 @@
 .container
   BookInfo(:info="info")
   CommentList(:comments="comments")
-  .comment
-    textarea(v-model="comment" class="textarea" :maxlength="100" placeholder='请输入内容...')
+  .comment(v-if="showAdd")
+    textarea( v-model="comment" class="textarea" :maxlength="100" placeholder='请输入内容...')
     .location 地理位置:
       switch(color="#EA5A49" @change="getGeo" :checked='location')
       span {{location}}
@@ -11,6 +11,9 @@
       switch(color="#EA5A49" @change="getPhone" :checked='phone')
       span {{phone}}
     button(class="btn" @click="addComments") 评论
+  .text-footer(v-else) 未登录或者已经评论过了
+  button(open-type="share" class='btn') 转发给好友
+
 </template>
 
 
@@ -33,6 +36,19 @@ export default {
       location: '',
       phone: '',
       userInfo: {}
+    }
+  },
+  computed: {
+    showAdd() {
+      // 没登录
+      if (!this.userInfo) {
+        return false
+      }
+      // 在评论也查到有自己的openid
+      if (this.comments.filter(v => v.openid === this.userInfo.openId).length) {
+        return false
+      }
+      return true
     }
   },
   methods: {
@@ -98,8 +114,9 @@ export default {
       try {
         const res = await post('/weapp/addcomments', data)
         this.comment = ''
-        console.log(res)
+        // console.log(res)
         if (res.msg === 'success') {
+          this.getComments()
           showModal('评论', '成功')
         }
       } catch (e) {
@@ -109,7 +126,7 @@ export default {
     // 获取评论列表
     async getComments() {
       const comments = await post('/weapp/commentList', { bookid: this.bookid })
-      this.comments = comments.list
+      this.comments = comments.list || []
     }
   },
   mounted() {

@@ -1,6 +1,6 @@
 <template lang="pug">
 .comment-list
-  .page-title 我的评论
+  .page-title(v-if="comments.length") 评论
   .comment(v-for="comment in comments" :key="comment.id")
     .user
       .inline {{comment.title}}
@@ -36,6 +36,5 @@ export default {
           border-radius: 50%
       .content
         margin: 10px 0
-        
 
 </style>
