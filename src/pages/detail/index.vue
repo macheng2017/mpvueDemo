@@ -2,19 +2,23 @@
 .container
   BookInfo(:info="info")
   .comment
-    textarea(v-model="comment" class="textarea" :maxlength="100" placeholder='请输入内容...')
+    textarea(v-model="comments" class="textarea" :maxlength="100" placeholder='请输入内容...')
     .location 地理位置:
       switch(color="#EA5A49" @change="getGeo" :checked='location')
       span {{location}}
     .phone 手机型号:
       switch(color="#EA5A49" @change="getPhone" :checked='phone')
       span {{phone}}
+    button(class="btn" @click="addComment") 评论
+
+
+
 
 </template>
 
 
 <script>
-import { get } from '@/utils'
+import { get, post, showModal } from '@/utils'
 import BookInfo from '@/components/bookInfo'
 export default {
   components: {
@@ -27,7 +31,8 @@ export default {
       info: {},
       comments: '',
       location: '',
-      phone: ''
+      phone: '',
+      userInfo: {}
     }
   },
   methods: {
@@ -54,7 +59,7 @@ export default {
                 ak: 'FgAwGxsSSYuD96qXuHXfpqk7dGnwVMab'
               },
               success: res => {
-                console.log(res)
+                // console.log(res)
                 if (res.data.status === 0) {
                   this.location = res.data.result.addressComponent.city
                 } else {
@@ -75,11 +80,37 @@ export default {
       } else {
         this.phone = ''
       }
+    },
+    //  comment method
+    async addComment() {
+      // 评论内容, 手机型号, 地理位置, 图书id 用户openid
+      if (!this.comments) {
+        return
+      }
+      const data = {
+        openId: this.userInfo.openId,
+        bookid: this.bookid,
+        comments: this.comments,
+        phone: this.phone,
+        location: this.location
+      }
+      // console.log(data)
+      try {
+        await post('/weapp/addcomment', data)
+        this.comments = ''
+      } catch (e) {
+        showModal('添加评论失败', e.msg)
+      }
     }
   },
   mounted() {
+    // mpvue 从query中获取数据的推荐写法
     this.bookid = this.$root.$mp.query.id
     this.getDetail()
+    const userInfo = wx.getStorageSync('userInfo')
+    if (userInfo) {
+      this.userInfo = userInfo
+    }
   }
 }
 </script>
@@ -95,9 +126,4 @@ export default {
   .location,.phone
     margin-top: 10px
     padding: 5px 10px
-
-
-
-
-
 </style>
