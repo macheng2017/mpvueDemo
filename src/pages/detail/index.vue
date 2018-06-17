@@ -2,18 +2,14 @@
 .container
   BookInfo(:info="info")
   .comment
-    textarea(v-model="comments" class="textarea" :maxlength="100" placeholder='请输入内容...')
+    textarea(v-model="comment" class="textarea" :maxlength="100" placeholder='请输入内容...')
     .location 地理位置:
       switch(color="#EA5A49" @change="getGeo" :checked='location')
       span {{location}}
     .phone 手机型号:
       switch(color="#EA5A49" @change="getPhone" :checked='phone')
       span {{phone}}
-    button(class="btn" @click="addComment") 评论
-
-
-
-
+    button(class="btn" @click="addComments") 评论
 </template>
 
 
@@ -29,7 +25,8 @@ export default {
     return {
       bookid: '',
       info: {},
-      comments: '',
+      comment: '',
+      comments: [],
       location: '',
       phone: '',
       userInfo: {}
@@ -82,31 +79,41 @@ export default {
       }
     },
     //  comment method
-    async addComment() {
+    async addComments() {
       // 评论内容, 手机型号, 地理位置, 图书id 用户openid
-      if (!this.comments) {
+      if (!this.comment) {
         return
       }
       const data = {
         openId: this.userInfo.openId,
         bookid: this.bookid,
-        comments: this.comments,
+        comment: this.comment,
         phone: this.phone,
         location: this.location
       }
       // console.log(data)
       try {
-        await post('/weapp/addcomment', data)
-        this.comments = ''
+        const res = await post('/weapp/addcomments', data)
+        this.comment = ''
+        console.log(res)
+        if (res.msg === 'success') {
+          showModal('评论', '成功')
+        }
       } catch (e) {
         showModal('添加评论失败', e.msg)
       }
+    },
+    // 获取评论列表
+    async getComments() {
+      const comments = await post('/weapp/commentList', { bookid: this.bookid })
+      this.comments = comments
     }
   },
   mounted() {
     // mpvue 从query中获取数据的推荐写法
     this.bookid = this.$root.$mp.query.id
     this.getDetail()
+    this.getComments()
     const userInfo = wx.getStorageSync('userInfo')
     if (userInfo) {
       this.userInfo = userInfo
