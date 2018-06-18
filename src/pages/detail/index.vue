@@ -129,6 +129,17 @@ export default {
       this.comments = comments.list || []
     }
   },
+  // 这是一个生命周期函数
+  onShareAppMessage: res => {
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res.target)
+    }
+    return {
+      title: '自定义转发标题',
+      path: '/page/user?id=123'
+    }
+  },
   mounted() {
     // mpvue 从query中获取数据的推荐写法
     this.bookid = this.$root.$mp.query.id
@@ -138,6 +149,8 @@ export default {
     if (userInfo) {
       this.userInfo = userInfo
     }
+    // 开启分享
+    wx.showShareMenu()
   }
 }
 </script>
