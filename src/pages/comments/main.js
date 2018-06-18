@@ -11,7 +11,8 @@ app.$mount()
 // 配置小程序显示界面
 export default {
   config: {
-    navigationBarTitleText: '蜗牛图书',
-    navigationBarTextStyle: 'light'
+    navigationBarTitleText: '评论列表',
+    navigationBarTextStyle: 'light',
+    enablePullDownRefresh: true
   }
 }
